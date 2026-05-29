@@ -22,9 +22,6 @@ dist-ssr
 .env.test.local
 .env.production.local
 
-# Ignored assets
-public/assets/icons/logoKibot.png
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
