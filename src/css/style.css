@@ -9,10 +9,8 @@
     BlinkMacSystemFont,
     "Segoe UI",
     sans-serif;
-
   color: #ffffff;
   background: #020617;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -35,6 +33,7 @@ body {
   min-width: 320px;
   overflow-x: hidden;
   overflow-y: auto;
+  background: #020617;
 }
 
 button,
@@ -52,11 +51,49 @@ img {
   max-width: 100%;
 }
 
+textarea {
+  scrollbar-width: thin;
+}
+
+input[type="color"] {
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+
+input[type="color"]::-webkit-color-swatch {
+  border: 0;
+  border-radius: 12px;
+}
+
+input[type="color"]::-moz-color-swatch {
+  border: 0;
+  border-radius: 12px;
+}
+
 @media (min-width: 768px) {
   html,
   body,
   #root {
     height: 100%;
+  }
+
+  body {
     overflow: hidden;
+  }
+}
+
+@media (max-width: 767px) {
+  html,
+  body,
+  #root {
+    min-height: 100%;
+  }
+
+  body {
+    overflow-y: auto;
   }
 }

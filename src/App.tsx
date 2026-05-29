@@ -19,58 +19,63 @@ function getInitialTheme(): Theme {
 }
 
 function TextViewer({ theme }: { theme: Theme }) {
-  const qrText = new URLSearchParams(window.location.search).get("qrText");
+  const qrText =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("qrText")
+      : "";
+
   const isDark = theme === "dark";
 
   return (
-    <div
-      className={`min-h-dvh overflow-y-auto bg-cover bg-center px-4 py-6 md:flex md:items-center md:justify-center md:overflow-hidden md:p-6 ${
-        isDark
-          ? "bg-[linear-gradient(135deg,rgba(2,6,23,0.96),rgba(15,23,42,0.92)),url('/assets/icon/background.png')] text-white"
-          : "bg-[linear-gradient(135deg,rgba(248,250,252,0.94),rgba(226,232,240,0.9)),url('/assets/icon/background.png')] text-slate-950"
+    <main
+      className={`min-h-dvh w-full px-4 py-8 ${
+        isDark ? "bg-[#020617] text-white" : "bg-slate-100 text-slate-950"
       }`}
     >
-      <main
-        className={`mx-auto w-full max-w-[720px] rounded-[28px] border p-6 text-center backdrop-blur-2xl md:rounded-[32px] md:p-8 ${
+      <section
+        className={`mx-auto flex min-h-[calc(100dvh-4rem)] w-full max-w-3xl items-center justify-center rounded-[28px] border p-5 text-center shadow-2xl sm:p-8 ${
           isDark
-            ? "border-slate-400/20 bg-slate-950/50 shadow-[0_26px_70px_rgba(2,6,23,0.45)]"
-            : "border-slate-200/80 bg-white/75 shadow-[0_26px_70px_rgba(15,23,42,0.16)]"
+            ? "border-slate-400/20 bg-slate-950/70"
+            : "border-slate-200 bg-white"
         }`}
       >
-        <p className="mb-3 text-[0.72rem] font-black uppercase tracking-[0.18em] text-sky-400 md:text-[0.76rem]">
-          QR Code Text
-        </p>
+        <div className="w-full">
+          <p className="mb-3 text-xs font-black uppercase tracking-[0.22em] text-cyan-400">
+            QR Code Text
+          </p>
 
-        <h1
-          className={`mb-5 break-words text-[clamp(1.8rem,9vw,3rem)] font-black leading-tight tracking-[-0.06em] md:text-[clamp(2rem,5vw,4rem)] ${
-            isDark ? "text-white" : "text-slate-950"
-          }`}
-        >
-          {qrText || "Tidak ada teks"}
-        </h1>
+          <h1 className="mb-4 break-words text-3xl font-black leading-tight tracking-[-0.04em] sm:text-5xl">
+            {qrText || "Tidak ada teks"}
+          </h1>
 
-        <p
-          className={`mx-auto mb-6 max-w-[520px] text-sm leading-6 md:text-base ${
-            isDark ? "text-slate-300" : "text-slate-600"
-          }`}
-        >
-          Ini adalah teks yang dibuat dari QR Code.
-        </p>
+          <p
+            className={`mx-auto mb-6 max-w-xl text-sm leading-6 sm:text-base ${
+              isDark ? "text-slate-300" : "text-slate-600"
+            }`}
+          >
+            Ini adalah teks yang dibuat dari QR Code.
+          </p>
 
-        <a
-          href="/"
-          className="inline-flex h-11 items-center justify-center rounded-[16px] bg-gradient-to-r from-sky-400 to-cyan-400 px-6 font-bold text-sky-950 no-underline shadow-[0_14px_30px_rgba(56,189,248,0.22)] transition duration-200 hover:-translate-y-0.5 md:h-12 md:rounded-[18px]"
-        >
-          Kembali
-        </a>
-      </main>
-    </div>
+          <a
+            href="/"
+            className="inline-flex h-11 items-center justify-center rounded-full bg-cyan-400 px-6 text-sm font-black text-slate-950 transition duration-200 hover:-translate-y-0.5 hover:bg-cyan-300"
+          >
+            Kembali
+          </a>
+        </div>
+      </section>
+    </main>
   );
 }
 
 function App() {
   const [theme, setTheme] = useState<Theme>(getInitialTheme);
-  const qrText = new URLSearchParams(window.location.search).get("qrText");
+
+  const qrText =
+    typeof window !== "undefined"
+      ? new URLSearchParams(window.location.search).get("qrText")
+      : null;
+
   const isDark = theme === "dark";
 
   useEffect(() => {
@@ -88,14 +93,24 @@ function App() {
 
   return (
     <div
-      className={`min-h-dvh overflow-y-auto bg-cover bg-center md:flex md:h-dvh md:flex-col md:overflow-hidden md:bg-fixed ${
+      className={`min-h-dvh w-full overflow-x-hidden ${
         isDark
-          ? "bg-[linear-gradient(135deg,rgba(2,6,23,0.94),rgba(15,23,42,0.9)),url('/assets/icon/background.png')] text-white"
-          : "bg-[linear-gradient(135deg,rgba(248,250,252,0.94),rgba(226,232,240,0.9)),url('/assets/icon/background.png')] text-slate-950"
+          ? "bg-[#020617] text-white"
+          : "bg-gradient-to-br from-slate-100 via-white to-cyan-50 text-slate-950"
       }`}
     >
-      <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
-      <Body theme={theme} />
+      <div
+        className={`pointer-events-none fixed inset-0 ${
+          isDark
+            ? "bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.16),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.14),transparent_34%)]"
+            : "bg-[radial-gradient(circle_at_top_left,rgba(34,211,238,0.22),transparent_34%),radial-gradient(circle_at_bottom_right,rgba(59,130,246,0.14),transparent_36%)]"
+        }`}
+      />
+
+      <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[1180px] flex-col px-4 py-4 sm:px-6 md:px-8 md:py-6">
+        <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
+        <Body theme={theme} />
+      </div>
     </div>
   );
 }
