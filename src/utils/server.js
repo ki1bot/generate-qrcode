@@ -12,6 +12,15 @@ function cleanValue(value) {
   return String(value || "").trim();
 }
 
+function encodeTextToBase64Url(value) {
+  const cleanedValue = cleanValue(value);
+
+  return btoa(unescape(encodeURIComponent(cleanedValue)))
+    .replace(/\+/g, "-")
+    .replace(/\//g, "_")
+    .replace(/=+$/g, "");
+}
+
 export function isEmail(value) {
   const cleanedValue = cleanValue(value);
 
@@ -139,7 +148,9 @@ export function createTextPageUrl(text) {
     return DEFAULT_QR_VALUE;
   }
 
-  return `${appBaseUrl}/?qrText=${encodeURIComponent(cleanedText)}`;
+  const encodedText = encodeTextToBase64Url(cleanedText);
+
+  return `${appBaseUrl}/?qrData=${encodedText}`;
 }
 
 export function parseCommandInput(value) {

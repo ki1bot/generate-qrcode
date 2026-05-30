@@ -15,6 +15,10 @@ type BodyProps = {
 function Body({ theme }: BodyProps) {
   const isDark = theme === "dark";
 
+  const actionButtonClass = isDark
+    ? "bg-gradient-to-r from-sky-400 to-cyan-400 text-white shadow-[0_16px_32px_rgba(34,211,238,0.2)] md:hover:from-sky-300 md:hover:to-cyan-300"
+    : "bg-slate-200 text-slate-800 md:hover:bg-slate-300";
+
   const qrCodeRef = useRef<HTMLDivElement | null>(null);
 
   const [qrValue, setQrValue] = useState(DEFAULT_QR_VALUE);
@@ -72,9 +76,9 @@ function Body({ theme }: BodyProps) {
   return (
     <main className="flex flex-1 flex-col items-center pb-8 pt-8 sm:pt-10 md:justify-center md:pb-4 md:pt-7">
       <section className="w-full max-w-[960px]">
-        <div className="mx-auto mb-7 max-w-[830px] text-center md:mb-8">
+        <div className="mx-auto mb-4 max-w-[830px] text-center md:mb-5">
           <h1
-            className={`mx-auto max-w-[820px] break-words text-[2.35rem] font-black leading-[0.98] tracking-[-0.07em] sm:text-[3.4rem] md:text-[4.4rem] lg:text-[5.2rem] ${
+            className={`mx-auto max-w-[820px] break-words text-[2.35rem] font-black leading-[0.98] tracking-[-0.010em] sm:text-[3.4rem] md:text-[3.0rem] lg:text-[3.5rem] ${
               isDark ? "text-white" : "text-slate-950"
             }`}
           >
@@ -82,7 +86,7 @@ function Body({ theme }: BodyProps) {
           </h1>
 
           <p
-            className={`mx-auto mt-5 max-w-[720px] text-[0.92rem] leading-7 sm:text-base md:mt-6 ${
+            className={`mx-auto mt-5 max-w-[720px] text-[0.92rem] leading-7 sm:text-base md:mt-6 lg:max-w-none lg:whitespace-nowrap ${
               isDark ? "text-slate-300" : "text-slate-600"
             }`}
           >
@@ -111,7 +115,7 @@ function Body({ theme }: BodyProps) {
               </p>
 
               <h2
-                className={`text-[1.45rem] font-black leading-none tracking-[-0.055em] sm:text-[1.7rem] ${
+                className={`text-[1.45rem] font-black leading-none tracking-[-0.010em] sm:text-[1.7rem] ${
                   isDark ? "text-white" : "text-slate-950"
                 }`}
               >
@@ -137,17 +141,48 @@ function Body({ theme }: BodyProps) {
                   Isi QR Code
                 </label>
 
-                <textarea
-                  id="qr-value"
-                  value={qrValue}
-                  placeholder="Contoh: Rifqi, Rifqi@gmail.com, 08123456789, atau https://github.com/ki1bot"
-                  onChange={(event) => setQrValue(event.target.value)}
-                  className={`h-[112px] w-full resize-none rounded-[18px] border px-4 py-3.5 text-sm leading-6 outline-none transition duration-200 focus:border-cyan-400 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.12)] sm:text-base md:h-[108px] ${
-                    isDark
-                      ? "border-slate-400/25 bg-slate-950/75 text-white placeholder:text-slate-500 focus:bg-slate-950/90"
-                      : "border-slate-300/80 bg-white/90 text-slate-950 placeholder:text-slate-400 focus:bg-white"
-                  }`}
-                />
+                <div className="relative">
+                  <textarea
+                    id="qr-value"
+                    value={qrValue}
+                    placeholder="Contoh: Rifqi, rifqi@gmail.com, 08123456789, atau https://github.com/ki1bot"
+                    onChange={(event) => setQrValue(event.target.value)}
+                    className={`h-[112px] w-full resize-none rounded-[18px] border px-4 py-3.5 pr-12 text-sm leading-6 outline-none transition duration-200 focus:border-cyan-400 focus:shadow-[0_0_0_4px_rgba(34,211,238,0.12)] sm:text-base md:h-[108px] ${
+                      isDark
+                        ? "border-slate-400/25 bg-slate-950/75 text-white placeholder:text-slate-500 focus:bg-slate-950/90"
+                        : "border-slate-300/80 bg-white/90 text-slate-950 placeholder:text-slate-400 focus:bg-white"
+                    }`}
+                  />
+
+                  {qrValue.length > 0 && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setQrValue("");
+                        setCopyText("Copy Text");
+                      }}
+                      aria-label="Hapus isi QR Code"
+                      className={`absolute right-4 top-4 inline-flex h-6 w-6 items-center justify-center bg-transparent p-0 transition duration-200 active:scale-90 ${
+                        isDark
+                          ? "text-slate-400 hover:text-white"
+                          : "text-slate-500 hover:text-slate-950"
+                      }`}
+                    >
+                      <svg
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="h-4 w-4"
+                      >
+                        <path d="M18 6L6 18" />
+                        <path d="M6 6l12 12" />
+                      </svg>
+                    </button>
+                  )}
+                </div>
               </div>
 
               <div className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -215,7 +250,7 @@ function Body({ theme }: BodyProps) {
                   type="button"
                   onClick={handleDownload}
                   disabled={!hasQrValue}
-                  className="h-11 rounded-[16px] bg-gradient-to-r from-sky-400 to-cyan-400 px-4 font-bold text-sky-950 shadow-[0_16px_32px_rgba(34,211,238,0.2)] transition duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 md:hover:-translate-y-0.5 md:disabled:hover:translate-y-0"
+                  className={`h-11 rounded-[16px] px-4 font-bold transition duration-200 active:scale-[0.98] disabled:cursor-not-allowed md:hover:-translate-y-0.5 md:disabled:hover:translate-y-0 ${actionButtonClass}`}
                 >
                   Download PNG
                 </button>
@@ -236,7 +271,7 @@ function Body({ theme }: BodyProps) {
                   </p>
 
                   <h2
-                    className={`text-[1.45rem] font-black leading-none tracking-[-0.055em] sm:text-[1.65rem] ${
+                    className={`text-[1.45rem] font-black leading-none tracking-[-0.010em] sm:text-[1.65rem] ${
                       isDark ? "text-white" : "text-slate-950"
                     }`}
                   >
@@ -324,7 +359,7 @@ function Body({ theme }: BodyProps) {
                   type="button"
                   onClick={handleCopy}
                   disabled={!hasQrValue}
-                  className="h-10 w-full rounded-[16px] bg-blue-700/80 font-bold text-white transition duration-200 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-45 md:hover:-translate-y-0.5 md:hover:bg-blue-700 md:disabled:hover:translate-y-0 md:disabled:hover:bg-blue-700/80"
+                  className={`h-10 w-full rounded-[16px] px-4 font-bold transition duration-200 active:scale-[0.98] disabled:cursor-not-allowed md:hover:-translate-y-0.5 md:disabled:hover:translate-y-0 ${actionButtonClass}`}
                 >
                   {copyText}
                 </button>

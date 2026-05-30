@@ -11,6 +11,7 @@ type NavbarProps = {
 
 function Navbar({ theme, onToggleTheme }: NavbarProps) {
   const isDark = theme === "dark";
+  const isLight = theme === "light";
   const [isProfileOpen, setIsProfileOpen] = useState(false);
   const profileRef = useRef<HTMLDivElement | null>(null);
 
@@ -40,16 +41,16 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
   }, []);
 
   return (
-    <header className="relative z-[70] flex w-full items-center justify-between gap-3">
+    <header className="relative z-70 flex w-full items-center justify-between gap-3">
       <a
         href="/"
-        className={`inline-flex h-10 shrink-0 items-center rounded-full border px-4 text-[0.78rem] font-black tracking-[-0.02em] transition duration-200 sm:h-11 sm:px-5 sm:text-sm ${
+        className={`inline-flex h-10 shrink-0 items-center rounded-full border px-4 text-[0.78rem] font-black tracking-[-0.005em] transition duration-200 sm:h-11 sm:px-5 sm:text-sm ${
           isDark
             ? "border-cyan-300/25 bg-slate-950/55 text-white hover:border-cyan-300/45"
             : "border-slate-300 bg-white/80 text-slate-950 hover:border-cyan-400"
         }`}
       >
-        Project QR Code
+        Generate QR Code
       </a>
 
       <div className="flex shrink-0 items-center gap-2">
@@ -64,8 +65,12 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
           }`}
         >
           <img
-            src={isDark ? "/assets/icon/moon.png" : "/assets/icon/sun.png"}
-            alt=""
+            src={
+              isDark
+                ? "/assets/icon/moonWhite.png"
+                : "/assets/icon/sunBlack.png"
+            }
+            alt="Theme icon"
             className="h-5 w-5 object-contain sm:h-6 sm:w-6"
           />
         </button>
@@ -83,15 +88,19 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
             }`}
           >
             <img
-              src="/assets/icon/profile.png"
-              alt=""
+              src={
+                isDark
+                  ? "/assets/icon/profileWhite.png"
+                  : "/assets/icon/profileBlack.png"
+              }
+              alt="Profile icon"
               className="h-5 w-5 object-contain sm:h-6 sm:w-6"
             />
           </button>
 
           {isProfileOpen && (
             <div
-              className={`absolute right-0 top-[calc(100%+0.75rem)] z-[90] w-[min(240px,calc(100vw-2rem))] rounded-[24px] border p-4 shadow-[0_24px_60px_rgba(2,6,23,0.36)] ${
+              className={`absolute right-0 top-[calc(100%+0.75rem)] z-90 w-[min(240px,calc(100vw-2rem))] rounded-24px border p-4 shadow-[0_24px_60px_rgba(2,6,23,0.36)] ${
                 isDark
                   ? "border-slate-400/20 bg-slate-950/95 text-white"
                   : "border-slate-200 bg-white/95 text-slate-950"
@@ -106,9 +115,13 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
                   }`}
                 >
                   <img
-                    src="/assets/icon/profile.png"
-                    alt=""
-                    className="h-6 w-6 object-contain"
+                    src={
+                      isDark
+                        ? "/assets/icon/profileWhite.png"
+                        : "/assets/icon/profileBlack.png"
+                    }
+                    alt="Profile icon"
+                    className="h-5 w-5 object-contain sm:h-6 sm:w-6"
                   />
                 </div>
 
@@ -120,7 +133,7 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
                   >
                     Created by
                   </p>
-                  <h3 className="truncate text-lg font-black tracking-[-0.04em]">
+                  <h3 className="truncate text-lg font-black tracking-[-0.020em]">
                     Kibot
                   </h3>
                 </div>
@@ -129,15 +142,24 @@ function Navbar({ theme, onToggleTheme }: NavbarProps) {
               <a
                 href={GITHUB_URL}
                 target="_blank"
-                rel="noreferrer"
-                className="flex h-11 w-full items-center justify-center gap-2 rounded-[16px] bg-slate-700 px-4 text-sm font-black text-white transition duration-200 hover:-translate-y-0.5 hover:bg-slate-600"
+                rel="noopener noreferrer"
+                className={`flex h-11 w-full items-center justify-center gap-2 rounded-2xl px-4 text-sm font-black transition duration-200 hover:-translate-y-0.5 ${
+                  isLight
+                    ? "bg-black text-white hover:bg-zinc-800"
+                    : "bg-white text-black hover:bg-zinc-200"
+                }`}
               >
                 <img
-                  src="/assets/icon/github.png"
-                  alt=""
-                  className="h-5 w-5 object-contain"
+                  src={
+                    isLight
+                      ? "/assets/icon/githubWhite.png"
+                      : "/assets/icon/githubBlack.png"
+                  }
+                  alt="GitHub icon"
+                  className="h-5 w-5 object-contain sm:h-6 sm:w-6"
                 />
-                GitHub
+
+                <span className="tracking-[0.050em]">GitHub</span>
               </a>
             </div>
           )}
