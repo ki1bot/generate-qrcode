@@ -33,7 +33,7 @@ Aplikasi ini dibuat menggunakan React, JavaScript, TypeScript, Vite, Tailwind CS
 
 ## Credits & Contact
 
-**Rifqi Susanto**
+**Rifqi**
 
 GitHub: [ki1bot](https://github.com/ki1bot)
 
