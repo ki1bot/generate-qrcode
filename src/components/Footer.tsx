@@ -9,7 +9,7 @@ function Footer({ theme }: FooterProps) {
 
   return (
     <footer
-      className={`w-full border-t py-5 text-center text-sm font-medium ${
+      className={`w-full py-5 text-center text-sm font-medium ${
         isDark
           ? "border-slate-400/20 text-slate-400"
           : "border-slate-200 text-slate-600"
