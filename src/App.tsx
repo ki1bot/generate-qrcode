@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Navbar from "./components/Navbar.tsx";
 import Body from "./components/Body.tsx";
+import Footer from "./components/Footer.tsx";
 
 type Theme = "dark" | "light";
 
@@ -181,6 +182,7 @@ function App() {
       <div className="relative z-10 mx-auto flex min-h-dvh w-full max-w-[1180px] flex-col px-4 py-4 sm:px-6 md:px-8 md:py-6">
         <Navbar theme={theme} onToggleTheme={handleToggleTheme} />
         <Body theme={theme} />
+        <Footer theme={theme} />
       </div>
     </div>
   );
